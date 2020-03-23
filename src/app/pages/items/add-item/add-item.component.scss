@@ -1,0 +1,13 @@
+.img-box {
+  height: 150px;
+  width: 150px;
+  background-color: #dddddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img {
+    min-height: 100%;
+    max-width: 100%;
+  }
+}

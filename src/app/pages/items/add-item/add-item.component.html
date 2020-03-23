@@ -1,0 +1,42 @@
+<section class="ion-padding">
+  <ion-row>
+    <ion-col sizeSm="12" sizeMd="4">
+      <input type="file" #inputFile (change)="onImageImported($event)" style="display: none;" accept="image/*" />
+      <div class="img-box" (click)="inputFile.click()">
+        <div class="ion-text-center" *ngIf="!image">
+          <h1 class="ion-no-margin"><ion-icon name="add"></ion-icon></h1>
+          <h4 class="ion-no-margin"><small>Click to add image</small></h4>
+        </div>
+        <img *ngIf="image" [src]="image | objectUrl" alt="">
+      </div>
+      <div class="ion-padding-top">
+        <ion-progress-bar *ngIf="uploadPercent" color="secondary" [value]="((uploadPercent | async) / 100)"></ion-progress-bar>
+        <p style="color: darkred;" *ngIf="itemForm.get('imageUrl').touched && itemForm.get('imageUrl').invalid">Please upload image</p>
+      </div>
+    </ion-col>
+    <ion-col sizeSm="12" sizeMd="8">
+      <div [formGroup]="itemForm" class="form">
+        <div class="input-group">
+          <label for="name">Name</label>
+          <input formControlName="name" id="name" type="text" placeholder="Item name">
+          <p *ngIf="itemForm.get('name').touched && itemForm.get('name').invalid" class="hint error">Please insert a name</p>
+        </div>
+        <div class="input-group">
+          <label for="category">Category</label>
+          <input formControlName="category" id="category" type="text" placeholder="Category name">
+          <p *ngIf="itemForm.get('category').touched && itemForm.get('category').invalid" class="hint error">Please insert a category</p>
+        </div>
+        <div class="input-group">
+          <label for="price">Price(FCFA)</label>
+          <input formControlName="unitPrice" id="price" type="number" placeholder="Price(in FCFA)">
+          <p *ngIf="itemForm.get('unitPrice').touched && itemForm.get('unitPrice').invalid" class="hint error">Please insert the price</p>
+        </div>
+      </div>
+    </ion-col>
+    <div class="action ion-justify-content-end" style="display: flex;width: 100%;">
+      <ion-button color="danger" (click)="dismissModal()">Cancel</ion-button>
+      <ion-button (click)="save()">Save</ion-button>
+    </div>
+  </ion-row>
+
+</section>

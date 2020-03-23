@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Items</ion-title>
+    <!--    <ion-searchbar></ion-searchbar>-->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<section class="toolbar ion-padding ion-text-right">
+  <ion-button (click)="addItemModal()" color="primary">+ Add Item</ion-button>
+</section>
+  <section class="list-row">
+      <ion-list>
+        <ion-list-header>
+          All Items
+        </ion-list-header>
+
+        <ion-item *ngFor="let item of items;let i = index;">
+          <ion-avatar slot="start">
+            <img [src]="item.imageUrl" [alt]="item.name">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{item.name}}</h2>
+            <p>{{item.category}}</p>
+            <h3>{{item.unitPrice | localeCurrency}}</h3>
+          </ion-label>
+          <ion-button color="secondary" (click)="editItem(i)" slot="end">Edit</ion-button>
+          <ion-button color="danger" (click)="deleteItem(i)" slot="end">Delete</ion-button>
+        </ion-item>
+      </ion-list>
+  </section>
+</ion-content>

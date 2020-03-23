@@ -1,0 +1,32 @@
+.body {
+  height: calc(100% - 100px);
+}
+.stats {
+  height: 100px;
+  // border-bottom: 1px solid #dddddd;
+  background-color: #3CAF50;
+  color: #ffffff;
+}
+.list-items {
+  height: calc(100% - 50px);
+}
+#detailsPane {
+  overflow: auto;
+}
+#backButton {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  #detailsPane {
+    position: fixed;
+    background-color: white;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    #backButton {
+      display: block;
+    }
+  }
+}

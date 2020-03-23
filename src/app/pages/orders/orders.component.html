@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Orders</ion-title>
+<!--    <ion-searchbar></ion-searchbar>-->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div  class="stats ion-padding">
+    <ion-row *ngIf="authState.admin" >
+      <ion-col sizeSm="12" sizeMd="6">
+        <small>Total amount sold</small>
+        <h1 class="ion-no-margin">{{orderStats.totalAmount | localeCurrency}}</h1>
+      </ion-col>
+      <ion-col sizeSm="12" sizeMd="6">
+        <small>Number of orders</small>
+        <h1 class="ion-no-margin">{{orderStats.totalOrders | number}}</h1>
+      </ion-col>
+    </ion-row>
+  </div>
+<!--  body-->
+  <section class="body">
+    <ion-segment color="secondary" mode="ios" (ionChange)="segmentChanged($event)" value="pending">
+      <ion-segment-button value="pending">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <ion-label>New(Pending)</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="active">
+        <ion-icon name="sync-circle-outline"></ion-icon>
+        <ion-label>Active</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="completed">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <ion-label>Completed</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="cancelled">
+        <ion-icon name="close-circle"></ion-icon>
+        <ion-label>Cancelled</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+<!--    div list-->
+    <div class="list-items">
+      <ion-row class="h-full">
+        <ion-col class="h-full" size="12" sizeMd="4">
+          <ion-list>
+            <ion-list-header lines="inset">
+              <ion-label><strong>{{selectedTab | titlecase}} orders</strong></ion-label>
+            </ion-list-header>
+
+            <ion-item style="cursor:pointer;" *ngFor="let order of currentOrders;let i = index;" (click)="selectOrder(i)">
+              <ion-label>
+                <h4>#{{i + 1}}</h4>
+                <h5>{{order.customer.name}}</h5>
+                <p>{{order.totalAmount | localeCurrency}}</p>
+              </ion-label>
+              <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col class="h-full" style="border-left: 1px solid #ddd;position: relative;" size="12" sizeMd="8">
+          <div id="detailsPane" *ngIf="selectedOrder" class="ion-padding h-full">
+            <div class="actions ion-text-right" style="padding: 10px 5px;display: flex;justify-content: space-between;">
+              <ion-button (click)="selectedOrder = null"  fill="outline" color="dark" id="backButton"><ion-icon name="arrow-back-outline"></ion-icon>&nbsp;</ion-button>
+              <ion-button (click)="setStatus('ACTIVE')" *ngIf="selectedOrder.status == 'PENDING'" color="secondary">Mark as active</ion-button>
+              <ion-button (click)="setStatus('COMPLETED')" *ngIf="selectedOrder.status == 'ACTIVE'">Mark as complete</ion-button>
+              <ion-button (click)="setStatus('CANCELLED')" color="warning" *ngIf="selectedOrder.status == 'ACTIVE' || selectedOrder.status == 'PENDING'">Cancel</ion-button>
+              <ion-button (click)="deleteOrder(selectedOrder.id)" color="danger" *ngIf="selectedOrder.status == 'CANCELLED'">Delete</ion-button>
+            </div>
+           <ion-row>
+             <ion-col size="12" sizeMd="6">
+               <h1 class="ion-no-margin">{{selectedOrder.customer.name}}</h1>
+               <p class="ion-no-margin">+237 {{selectedOrder.customer.phoneNumber}}</p>
+               <p class="ion-no-margin">{{selectedOrder.customer.email}}</p>
+             </ion-col>
+             <ion-col size="12" sizeMd="6">
+               <h1 class="ion-no-margin">{{selectedOrder.totalAmount | localeCurrency}}</h1>
+               <p>
+                 <ion-badge  *ngIf="selectedOrder.status == 'PENDING'" color="secondary">Pending</ion-badge>
+                 <ion-badge  *ngIf="selectedOrder.status == 'ACTIVE'" color="warning">Active</ion-badge>
+                 <ion-badge  *ngIf="selectedOrder.status == 'COMPLETED'" color="success">Completed</ion-badge>
+                 <ion-badge  *ngIf="selectedOrder.status == 'CANCELLED'" color="danger">Cancelled</ion-badge>
+               </p>
+             </ion-col>
+           </ion-row>
+            <div class="items-header" style="border-bottom: 1px solid #ddd;">
+              <p><strong>Items</strong></p>
+            </div>
+            <div class="items-body">
+              <ion-row style="border-bottom: 1px solid #ddd;">
+                <ion-col size="7">
+                  <span>Item name</span>
+                </ion-col>
+                <ion-col size="2">
+                  <span>Qty</span>
+                </ion-col>
+                <ion-col size="3">
+                  <span>Total</span>
+                </ion-col>
+              </ion-row>
+              <div>
+                <ion-row *ngFor="let item of selectedOrder.items;let i = index;" style="margin: 10px 5px;">
+                  <ion-col size="6">
+                    <span>{{item.name}}</span>
+                  </ion-col>
+                  <ion-col size="2">
+                    <span>{{item.quantity}}</span>
+                  </ion-col>
+                  <ion-col size="4">
+                    <strong>{{item.totalAmount | localeCurrency}}</strong>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </section>
+</ion-content>

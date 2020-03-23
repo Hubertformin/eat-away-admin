@@ -1,0 +1,22 @@
+<section style="height: 100%; width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+  <section class="ion-align-self-auto">
+    <div class="ion-padding ion-text-center">
+      <img src="assets/images/icon.png" height="60" width="60" alt="">
+      <h3 class="text-theme-primary font-parcifico">Eat Away</h3>
+      <div *ngIf="showWrongUserAndPass" class="error ion-color-danger ion-padding" style="border-radius:10px;color: red;background: rgba(255, 40, 32, 0.42)">
+        Wrong username or password
+      </div>
+    </div>
+    <form [formGroup]="form" class="form">
+      <div class="input-group">
+        <input formControlName="username" type="text" placeholder="username">
+      </div>
+      <div class="input-group">
+        <input formControlName="password" type="password" placeholder="password">
+      </div>
+      <div class="ion-text-center">
+        <ion-button (click)="login()" color="primary">Login</ion-button>
+      </div>
+    </form>
+  </section>
+</section>
